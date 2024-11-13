@@ -1,0 +1,81 @@
+/* Remove the spinner (up/down arrows) in input fields */
+input[type="number"] {
+    -moz-appearance: textfield;
+    /* For Firefox */
+    -webkit-appearance: none;
+    /* For Webkit-based browsers (Chrome, Safari) */
+    appearance: none;
+    /* Standard property */
+}
+
+/* Additional fix for WebKit browsers (Chrome, Safari) to remove styling */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input {
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 20px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 30px;
+}
+
+h1 {
+    font-size: 40px;
+    font-weight: 60;
+    background-image: linear-gradient(to left, #553c9a, #b393d3);
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+}
+
+.generate {
+    padding: 10px;
+    background-color: #553c9a;
+    border-radius: 5px;
+    color: aliceblue;
+}
+
+#blocksContainer{
+    /* border: 2px solid black;
+    max-width: 1000px; */
+}
+
+.block {
+    width: 20px;
+    height: 20px;
+    margin: 1px 2px;
+    border: 1px solid black;
+    background-color: #6bcb6e;
+    display: inline-block;
+    text-align: center;
+}
+.blockZero {
+    width: 20px;
+    height: 20px;
+    margin: 1px 2px;
+    border: 1px solid black;
+    background-color: #6e6bcb;
+    display: inline-block;
+    text-align: center;
+}
+.userMove{
+    /* position: fixed;
+    left: 0; */
+}
+.userMove>input[type="number"]{
+    max-width: 50px;
+}
