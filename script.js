@@ -20,8 +20,15 @@ function generate() {
     document.getElementById("e1").innerHTML =
       "Input Field cannot be 'Non-Zero'";
   } else {
-    NoT = n;
-    winGenerate();
+    NoT = parseInt(n);  // Ensure NoT is a number
+    if (isNaN(NoT) || NoT <= 0) {
+      document.getElementById("e1").innerHTML = "Invalid grid size";
+      return;
+    }
+    
+    winGenerate();  // This sets up the win condition array
+    console.log("NoT:", NoT);  // Log NoT value
+
     console.log(tilePositions);
     console.log("=======");
     console.log(tileWinCondition);
@@ -30,35 +37,35 @@ function generate() {
       document.getElementById("gameMsg").innerHTML = "<h2>You Won</h2>";
     } else if (gameGenerated) {
       document.getElementById("e1").innerHTML = "";
-      for (let i = 0; i < n; i++) {
-        for (let j = 0; j < n; j++) {
+      for (let i = 0; i < NoT; i++) {
+        for (let j = 0; j < NoT; j++) {
           var block = document.createElement("div");
           block.classList.add("block");
-          if (tilePositions[i * n + j] == 0) {
+          if (tilePositions[i * NoT + j] == 0) {
             block.classList.add("blockZero");
             xZero = i;
             yZero = j;
           }
-          block.textContent = tilePositions[i * n + j];
+          block.textContent = tilePositions[i * NoT + j];
           container.append(block);
         }
         var br = document.createElement("br");
         container.append(br);
       }
     } else {
-      //   const shuffledArray = generateShuffledArray(n * n);
+      // Now `NoT` should be correctly set
       const shuffledArray = generateShuffledArray2();
       document.getElementById("e1").innerHTML = "";
-      for (let i = 0; i < n; i++) {
-        for (let j = 0; j < n; j++) {
+      for (let i = 0; i < NoT; i++) {
+        for (let j = 0; j < NoT; j++) {
           var block = document.createElement("div");
           block.classList.add("block");
-          if (shuffledArray[i * n + j] == 0) {
+          if (shuffledArray[i * NoT + j] == 0) {
             block.classList.add("blockZero");
             xZero = i;
             yZero = j;
           }
-          block.textContent = shuffledArray[i * n + j];
+          block.textContent = shuffledArray[i * NoT + j];
           container.append(block);
         }
         var br = document.createElement("br");
@@ -85,20 +92,25 @@ function generate() {
 //   return arr;
 // }
 function generateShuffledArray2() {
-  arr = [...tileWinCondition];
+  let arr = [...tileWinCondition];
   for (let k = 0; k < 100; k++) {
-    i = findZero(arr);
-    let match = Math.floor(Math.random() * (4 - 1 + 1) + 1);
-    if (match == 1 && (i - 1) % 4 != 0 && i - 1 >= 0) {
+    let i = findZero(arr);
+    let match = Math.floor(Math.random() * 4) + 1;
+    console.log(`Match: ${match}, i: ${i}`); // Debugging log
+    if (match == 1 && ((i - 1) % NoT !== 0) && (i - 1) >= 0) {
+      console.log(`Swapping with left: ${i} <--> ${i - 1}`);
       [arr[i], arr[i - 1]] = [arr[i - 1], arr[i]];
     }
-    if (match == 2 && i - 4 >= 0) {
-      [arr[i], arr[i - 4]] = [arr[i - 4], arr[i]];
+    if (match == 2 && (i - NoT) >= 0) {
+      console.log(`Swapping with top: ${i} <--> ${i - NoT}`);
+      [arr[i], arr[i - NoT]] = [arr[i - NoT], arr[i]];
     }
-    if (match == 3 && i + 1 * 4 < 16 && i + 1 < 16) {
-      [arr[i], arr[i + 4]] = [arr[i + 4], arr[i]];
+    if (match == 3 && (i + NoT < NoT * NoT) && (i + NoT < arr.length)) {
+      console.log(`Swapping with bottom: ${i} <--> ${i + NoT}`);
+      [arr[i], arr[i + NoT]] = [arr[i + NoT], arr[i]];
     }
-    if (match == 4 && (i + 1) % 4 != 1 && i + 1 < 16) {
+    if (match == 4 && ((i + 1) % NoT !== 0) && (i + 1) < NoT * NoT) {
+      console.log(`Swapping with right: ${i} <--> ${i + 1}`);
       [arr[i], arr[i + 1]] = [arr[i + 1], arr[i]];
     }
   }
